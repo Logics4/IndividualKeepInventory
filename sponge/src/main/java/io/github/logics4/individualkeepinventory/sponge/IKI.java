@@ -33,11 +33,11 @@ import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.plugin.Plugin;
 
 @Plugin(id = "individualkeepinventory",
-    name = "${project.parent.name}",
+    name = PluginInfo.NAME,
     authors = {"Logics4"},
-    version = "${project.parent.version}",
-    description = "${project.parent.description}",
-    url = "${project.parent.url}")
+    version = PluginInfo.VERSION,
+    description = PluginInfo.DESCRIPTION,
+    url = PluginInfo.URL)
 public class IKI {
 
     @Inject
