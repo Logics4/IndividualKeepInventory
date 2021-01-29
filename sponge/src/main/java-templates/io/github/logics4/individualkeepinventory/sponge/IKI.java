@@ -32,7 +32,7 @@ import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.plugin.Plugin;
 
-@Plugin(id = "${project.parent.artifactId}",
+@Plugin(id = "individualkeepinventory",
     name = "${project.parent.name}",
     authors = {"Logics4"},
     version = "${project.parent.version}",
