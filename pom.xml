@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <name>IndividualKeepInventory</name>
-    <version>1.1.0</version>
+    <version>1.2.0-SNAPSHOT</version>
     <description>Set keepInventory mechanic in a per-player way (through permission).</description>
     <url>https://github.com/Logics4/IndividualKeepInventory</url>
 
