@@ -24,12 +24,17 @@ import com.google.inject.Inject;
 
 import io.github.logics4.individualkeepinventory.common.Constants;
 
-import org.bstats.sponge.MetricsLite2;
+import java.util.concurrent.Callable;
 
+import org.bstats.sponge.Metrics2;
+
+import org.spongepowered.api.Game;
+import org.spongepowered.api.Platform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.filter.Getter;
+import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 
 @Plugin(id = "individualkeepinventory",
@@ -39,13 +44,32 @@ import org.spongepowered.api.plugin.Plugin;
     description = PluginInfo.DESCRIPTION,
     url = PluginInfo.URL)
 public class IKI {
+    @Inject
+    private Game game;
+
+    private final Metrics2 metrics;
 
     @Inject
-    public IKI(MetricsLite2.Factory metricsFactory) {
+    public IKI(Metrics2.Factory metricsFactory) {
         int bStatsId = 10158; // plugin ID for bStats for Sponge
-        metricsFactory.make(bStatsId);
+        metrics = metricsFactory.make(bStatsId);
     }
 
+    // bStats's custom charts
+    @Listener
+    public void onServerStarted(GameStartedServerEvent event) {
+        String implementationName = game.getPlatform().getContainer(Platform.Component.IMPLEMENTATION).getName();
+
+        // Custom chart for bStats to collect SpongeAPI implementation name (e.g. "SpongeVanilla", "SpongeForge")
+        metrics.addCustomChart(new Metrics2.SimplePie("spongeapi_implementation", new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return implementationName;
+            }
+        }));
+    }
+
+    // the per-player keepInventory code
     @Listener
     public void onPlayerDeath(DestructEntityEvent.Death event, @Getter("getTargetEntity")Player player) {
         if (player.hasPermission(Constants.IKI_KEEPINVENTORY_PERMISSION)) {
